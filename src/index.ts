@@ -63,7 +63,7 @@ async function generateFilesForFields(schema: GraphQLSchema, obj: GraphQLFieldMa
     promisses.push(new Promise(resolve => {
       const ops = buildOperationNodeForField({ schema, kind, field })
       const file = `${opsPath}/${field}.graphql`
-      const content = `${print(ops).replace(/^([\t\s]*)((?!\().)*(:\s)/gm, '$1').replace(/(\$\w)/g, (s) => s.toLowerCase())}`
+      const content = `${print(ops)}`
       fs.writeFile(file, content, () => resolve({ field: field.replace(/\.?([A-Z]+)/g, (x, y) => '_' + y).replace(/^_/, '').toUpperCase(), file }))
     }))
   })
