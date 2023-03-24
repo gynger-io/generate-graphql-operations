@@ -1,6 +1,6 @@
 {
   "name": "@gynger-io/generate-graphql-operations",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Genereate graphql queries, mutations and subscriptions based on a schema",
   "keywords": [
     "graphql",
@@ -27,17 +27,17 @@
   },
   "homepage": "https://github.com/brense/generate-graphql-operations#readme",
   "dependencies": {
-    "@graphql-tools/graphql-file-loader": "^6.2.7",
-    "@graphql-tools/json-file-loader": "^6.2.6",
-    "@graphql-tools/load": "^6.2.5",
-    "@graphql-tools/url-loader": "^6.10.1",
-    "@graphql-tools/utils": "^7.10.0",
-    "graphql": "^15.5.1",
-    "yargs": "^15.4.1"
+    "@graphql-tools/graphql-file-loader": "^7.5.16",
+    "@graphql-tools/json-file-loader": "^7.4.17",
+    "@graphql-tools/load": "^7.8.13",
+    "@graphql-tools/url-loader": "^7.17.14",
+    "@graphql-tools/utils": "^9.2.1",
+    "graphql": "^16.6.0",
+    "yargs": "^17.7.1"
   },
   "devDependencies": {
-    "@types/ws": "^7.4.6",
-    "@types/yargs": "^15.0.9",
-    "typescript": "^3.9.7"
+    "@types/ws": "^8.5.4",
+    "@types/yargs": "^17.0.23",
+    "typescript": "^5.0.2"
   }
 }

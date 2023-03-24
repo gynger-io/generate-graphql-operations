@@ -1,29 +1,29 @@
 #!/usr/bin/env node
 
-import { GraphQLSchema, GraphQLFieldMap, print } from 'graphql';
-import { buildOperationNodeForField } from '@graphql-tools/utils';
-import { UrlLoader } from '@graphql-tools/url-loader';
-import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import { loadSchema } from '@graphql-tools/load';
+import { UrlLoader } from '@graphql-tools/url-loader';
+import { buildOperationNodeForField } from '@graphql-tools/utils';
 import * as fs from 'fs';
-import * as yargs from 'yargs';
+import { GraphQLFieldMap, GraphQLSchema, OperationTypeNode, print } from 'graphql';
 import { resolve as pathResolve } from 'path';
-
-// yargs command options config
-const { path, url, file } = yargs.options({
-  path: { type: 'string', alias: 'p', demandOption: true },
-  url: { type: 'string' },
-  file: { type: 'string' },
-}).check((argv, options) => {
-  if (!argv.file && !argv.url) {
-    throw new Error('You must pass either an url or a file!');
-  } else {
-    return true;
-  }
-}).argv;
+import * as yargs from 'yargs';
 
 (async () => {
+  // yargs command options config
+  const { path, url, file } = await yargs.options({
+    path: { type: 'string', alias: 'p', demandOption: true },
+    url: { type: 'string' },
+    file: { type: 'string' },
+  }).check((argv, options) => {
+    if (!argv.file && !argv.url) {
+      throw new Error('You must pass either an url or a file!');
+    } else {
+      return true;
+    }
+  }).argv;
+
   // load schema
   const schema = await loadSchema(url || file || '', {
     loaders: [
@@ -43,18 +43,18 @@ const { path, url, file } = yargs.options({
 
   // generate files
   await Promise.all([
-    mutations && generateFilesForFields(schema, mutations, 'mutation'),
-    queries && generateFilesForFields(schema, queries, 'query'),
-    subscriptions && generateFilesForFields(schema, subscriptions, 'subscription'),
+    mutations && generateFilesForFields(schema, mutations, OperationTypeNode.MUTATION, path),
+    queries && generateFilesForFields(schema, queries, OperationTypeNode.QUERY, path),
+    subscriptions && generateFilesForFields(schema, subscriptions, OperationTypeNode.SUBSCRIPTION, path),
   ]);
 })();
 
 async function generateFilesForFields(
   schema: GraphQLSchema,
   obj: GraphQLFieldMap<any, any>,
-  kind: 'query' | 'mutation' | 'subscription',
+  kind: OperationTypeNode,
+  path: string,
 ) {
-  const promisses: Array<Promise<{ field: string, file: string }>> = [];
   const opsPath = `${pathResolve(path)}/${kind === 'query' ? 'queries' : kind === 'mutation'
     ? 'mutations' : 'subscriptions'}`;
 
@@ -70,7 +70,7 @@ async function generateFilesForFields(
         schema,
         kind,
         field,
-        depthLimit: 5,
+        circularReferenceDepth: 5,
       });
       const file = `${opsPath}/${field}.graphql`;
       const content = `${print(ops)}`;
