@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gynger-io/gynger.git"
+    "url": "git+https://github.com/gynger-io/generate-graphql-operations.git"
   },
   "author": "Rense Bakker",
   "license": "MIT",
