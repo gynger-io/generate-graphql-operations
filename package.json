@@ -1,6 +1,6 @@
 {
   "name": "@gynger-io/generate-graphql-operations",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Genereate graphql queries, mutations and subscriptions based on a schema",
   "keywords": [
     "graphql",
@@ -36,8 +36,9 @@
     "yargs": "^17.7.1"
   },
   "devDependencies": {
-    "@types/ws": "^8.5.4",
+    "@types/node": "^25.2.3",
+    "@types/ws": "^8.8.1",
     "@types/yargs": "^17.0.23",
-    "typescript": "^5.0.2"
+    "typescript": "^5.9.3"
   }
 }
